@@ -11,7 +11,8 @@ class SearchCepBloc extends Bloc<String, SearchCepState> {
     on<String>(_searchCepRequest);
   }
 
-  void _searchCepRequest(String cep, Emitter<SearchCepState> emitter) async {
+  Future<void> _searchCepRequest(
+      String cep, Emitter<SearchCepState> emitter) async {
     try {
       Response cepResult =
           await dioInstance.get('https://viacep.com.br/ws/$cep/json/');
@@ -23,7 +24,25 @@ class SearchCepBloc extends Bloc<String, SearchCepState> {
   }
 }
 
-//Bloc Convencional
+//Utilizando Cubit//
+// class SearchCepBloc extends Cubit<SearchCepState> {
+//   final Dio dioInstance;
+
+//   SearchCepBloc(this.dioInstance) : super(SearchCepStart());
+
+//   Future<void> searchCepRequest(String cep) async {
+//     try {
+//       Response cepResult =
+//           await dioInstance.get('https://viacep.com.br/ws/$cep/json/');
+//       emit(SearchCepSuccess(CepModel.fromJSON(
+//           cepResult.data))); //podemos ter quantos yields quisermos
+//     } catch (e) {
+//       emit(SearchCepError("Erro na requisição da API viacep"));
+//     }
+//   }
+// }
+
+//Bloc Convencional//
 // class SearchCepBlocConvencional {
 //   final StreamController<String> _streamController =
 //       StreamController<String>.broadcast();

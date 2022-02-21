@@ -5,6 +5,7 @@ import 'package:flutterando/blocs/search_cep_bloc.dart';
 import 'package:flutterando/pages/calc-imc.dart';
 import 'package:flutterando/pages/consult-cep-mobx.dart';
 import 'package:flutterando/pages/consult-cep.dart';
+import 'package:flutterando/pages/consult-users-triple.dart';
 import 'package:flutterando/pages/home-page.dart';
 import 'package:flutterando/pages/layout-widgets.dart';
 import 'package:flutterando/pages/learn-animated.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
                     brightness: (context.watch<AppController>().isDarkTheme)
                         ? Brightness.dark
                         : Brightness.light),
-                initialRoute: '/consult-cep-mobx',
+                initialRoute: '/consult-users-triple',
                 routes: {
                   '/': (context) => MyHomePage(title: 'Home Page'),
                   '/layout-widgets': (context) => LayoutWidgets(),
@@ -55,6 +56,8 @@ class MyApp extends StatelessWidget {
                   '/consult-cep': (context) => const ConsultCEPWidget(),
                   '/consult-cep-mobx': (context) =>
                       const ConsultCEPWidgetMobx(),
+                  '/consult-users-triple': (context) =>
+                      const ConsultUsersTripleWidget(),
                 },
               );
             })));
