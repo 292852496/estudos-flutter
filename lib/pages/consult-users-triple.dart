@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_triple/flutter_triple.dart';
+import 'package:flutterando/modules/module.dart';
 import 'package:flutterando/triple/search_users_triple.dart';
 
 class ConsultUsersTripleWidget extends StatefulWidget {
@@ -10,14 +11,22 @@ class ConsultUsersTripleWidget extends StatefulWidget {
 }
 
 class _ConsultUsersTripleWidget extends State<ConsultUsersTripleWidget> {
-  SearchUsersTriple searchUsersTriple = SearchUsersTriple();
+  @override
+  void initState() {
+    super.initState();
+
+    //podemos também utilizar um observável no triple
+    getIt.get<SearchUsersTriple>().observer(
+        onError: (error) => print(error),
+        onState: (state) => print("state success"));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(),
         body: ScopedBuilder(
-          store: searchUsersTriple,
+          store: getIt.get<SearchUsersTriple>(),
           onLoading: (_) {
             return const Center(child: CircularProgressIndicator());
           },
@@ -25,13 +34,18 @@ class _ConsultUsersTripleWidget extends State<ConsultUsersTripleWidget> {
             return const Text('Ocorreu um erro');
           },
           onState: (_, state) {
-            return searchUsersTriple.state.data.isEmpty
-                ? BTNSearchUsersList(searchUsersTriple: searchUsersTriple)
+            return getIt.get<SearchUsersTriple>().state.data.isEmpty
+                ? BTNSearchUsersList(
+                    searchUsersTriple: getIt.get<SearchUsersTriple>())
                 : ListView.builder(
-                    itemCount: searchUsersTriple.state.data.length,
+                    itemCount: getIt.get<SearchUsersTriple>().state.data.length,
                     itemBuilder: (_, index) {
                       return ListTile(
-                        title: Text(searchUsersTriple.state.data[index].name
+                        title: Text(getIt
+                            .get<SearchUsersTriple>()
+                            .state
+                            .data[index]
+                            .name
                             .toString()),
                       );
                     });

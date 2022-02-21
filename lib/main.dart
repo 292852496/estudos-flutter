@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterando/blocs/search_cep_bloc.dart';
+import 'package:flutterando/modules/module.dart';
 import 'package:flutterando/pages/calc-imc.dart';
 import 'package:flutterando/pages/consult-cep-mobx.dart';
 import 'package:flutterando/pages/consult-cep.dart';
@@ -17,6 +18,7 @@ import 'pages/app-controller.dart';
 import 'pages/login-form.dart';
 
 void main() {
+  initModule();
   runApp(const MyApp());
 }
 
