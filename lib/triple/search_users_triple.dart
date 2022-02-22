@@ -1,28 +1,21 @@
-import 'dart:convert';
-
 import 'package:flutter_triple/flutter_triple.dart';
-import 'package:flutterando/models/user_model.dart';
+import 'package:flutterando/interfaces/ihttp_service.dart';
+import 'package:flutterando/repositories/user_triple_repository.dart';
 import 'package:flutterando/states/search_user_state.dart';
-import 'package:http/http.dart' as http;
 
 class SearchUsersTriple
     extends StreamStore<SearchUserError, SearchUserSuccess> {
-  //Podemos utilizar o NotifierStore ou o MobxStore (instalar o mobx_triple)
+  final UserTripleRepository userTripleRepository =
+      UserTripleRepository(DIOConnection());
+
+  //Podemos utilizar o StreamStore , NotifierStore ou o MobXStore (instalar o mobx_triple),
+  // Ou ainda fazer nossa própria reatividade customizada
   SearchUsersTriple() : super(const SearchUserSuccess([]));
 
   // Utilizando o método execute()
   Future<void> searchUsers() async {
     execute(() async {
-      Uri uriRequest =
-          Uri.parse(Uri.encodeFull('https://gorest.co.in/public/v2/users'));
-      http.Response reqRespose = await http.get(uriRequest);
-      List<dynamic> listUsers = jsonDecode(reqRespose.body) as List;
-      List<UserModel> newListUserModel = <UserModel>[];
-
-      for (var user in listUsers) {
-        newListUserModel.add(UserModel.fromJson(user));
-      }
-      return SearchUserSuccess(newListUserModel);
+      return await userTripleRepository.fetchUsers();
     });
   }
 

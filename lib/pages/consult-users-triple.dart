@@ -19,13 +19,20 @@ class _ConsultUsersTripleWidget extends State<ConsultUsersTripleWidget> {
     getIt.get<SearchUsersTriple>().observer(
         onError: (error) => print(error),
         onState: (state) => print("state success"));
+
+    //ou utilizar o TripleObserver
+    TripleObserver.addListener((triple) {
+      if (triple.event == TripleEvent.error) {
+        print("Observa o erro com TripleObserver");
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(),
-        body: ScopedBuilder(
+        body: ScopedBuilder.transition(
           store: getIt.get<SearchUsersTriple>(),
           onLoading: (_) {
             return const Center(child: CircularProgressIndicator());
